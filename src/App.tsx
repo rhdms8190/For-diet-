@@ -629,63 +629,39 @@ export default function App() {
             )}
 
             {/* Muscle Trend Chart */}
-            {/* 1. 체성분 상태와 골격근량 추이를 가로로 나란히 배치 */}
-<section className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-  
-  {/* 왼쪽: 나의 체성분 상태 */}
-  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-center h-full">
-    <h2 className="text-lg font-bold mb-4 text-[#1A1A1A]">나의 체성분 상태</h2>
-    <div className="flex justify-around items-center">
-      <div className="text-center">
-        <p className="text-xs text-gray-400 mb-1">현재 BMI</p>
-        <p className="text-xl font-bold text-emerald-500">24.5</p>
-        <span className="text-[10px] text-emerald-600 font-medium">과체중</span>
-      </div>
-      <div className="w-px h-12 bg-gray-100" />
-      <div className="text-center">
-        <p className="text-xs text-gray-400 mb-1">목표까지</p>
-        <p className="text-xl font-bold text-blue-500">5.0kg</p>
-        <span className="text-[10px] text-blue-600 font-medium">감량 필요</span>
-      </div>
-    </div>
-  </div>
-
-  {/* 오른쪽: 골격근량 추이 (슬림하게 수정) */}
-  <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 h-full">
-    <div className="flex justify-between items-center mb-4">
-      <h2 className="text-lg font-bold text-[#1A1A1A]">골격근량 추이</h2>
-      <span className="text-xs text-gray-400">최근 7일</span>
-    </div>
-    {/* 높이를 180px로 줄여서 체성분 카드와 높이를 맞춤 */}
-    <div style={{ width: '100%', height: '180px' }}>
-      {chartData.length > 0 ? (
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={chartData}>
-            <defs>
-              <linearGradient id="colorMuscle" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.1}/>
-                <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
-            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 10, fill: '#94A3B8'}} />
-            <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
-            <Tooltip 
-              contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
-              labelStyle={{ fontWeight: 'bold', marginBottom: '4px' }}
-            />
-            <Area type="monotone" dataKey="muscle" stroke="#3B82F6" strokeWidth={3} fillOpacity={1} fill="url(#colorMuscle)" />
-          </AreaChart>
-        </ResponsiveContainer>
-      ) : (
-        <div className="h-full flex flex-col items-center justify-center text-gray-400 gap-2">
-          <TrendingUp className="w-8 h-8 opacity-20" />
-          <p className="text-sm">기록이 없습니다.</p>
-        </div>
-      )}
-    </div>
-  </div>
-</section>
+            <section>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg font-bold">골격근량 변화 추이</h2>
+                <span className="text-xs text-gray-400">최근 7일</span>
+              </div>
+              <div className="bg-white p-4 rounded-3xl shadow-sm border border-gray-100" style={{ width: '100%', height: '300px', minHeight: '300px' }}>
+                {chartData.length > 0 ? (
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={chartData}>
+                      <defs>
+                        <linearGradient id="colorMuscle" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.1}/>
+                          <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#F1F5F9" />
+                      <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fontSize: 10, fill: '#94A3B8'}} />
+                      <YAxis hide domain={['dataMin - 1', 'dataMax + 1']} />
+                      <Tooltip 
+                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
+                        labelStyle={{ fontWeight: 'bold', marginBottom: '4px' }}
+                      />
+                      <Area type="monotone" dataKey="muscle" stroke="#3B82F6" strokeWidth={3} fillOpacity={1} fill="url(#colorMuscle)" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center text-gray-400 gap-2">
+                    <TrendingUp className="w-8 h-8 opacity-20" />
+                    <p className="text-sm">기록이 없습니다. 신체 데이터를 입력해보세요!</p>
+                  </div>
+                )}
+              </div>
+            </section>
 
             {/* AI Nutrition Advice */}
             <section className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1105,75 +1081,36 @@ export default function App() {
         </motion.button>
       </div>
 
-     {/* Modals */}
-  <AnimatePresence>
-    {isModalOpen && (
-      <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={() => setIsModalOpen(null)}
-          className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        />
-        <motion.div
-          initial={{ y: '100%' }}
-          animate={{ y: 0 }}
-          exit={{ y: '100%' }}
-          className="relative w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl p-8 shadow-2xl"
-        >
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-bold">
-              {isModalOpen === 'profile' ? '프로필 설정' : 
-               isModalOpen === 'meal' ? '식단 추가' : 
-               isModalOpen === 'exercise' ? '운동 추가' : '정보 입력'}
-            </h2>
-            <button 
+      {/* Modals */}
+      <AnimatePresence>
+        {isModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setIsModalOpen(null)}
-              className="p-2 hover:bg-gray-50 rounded-xl transition-colors"
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            />
+            <motion.div 
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              className="relative w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl p-8 shadow-2xl"
             >
-              <X className="w-6 h-6 text-gray-400" />
-            </button>
-          </div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold">
+                  {isModalOpen === 'meal' ? '식단 추가' : isModalOpen === 'exercise' ? '운동 추가' : isModalOpen === 'body' ? '신체 기록 추가' : isModalOpen === 'profile' ? '프로필 설정' : 'AI 레시피'}
+                </h2>
+                <div className="flex gap-2">
+                  <button onClick={() => setIsModalOpen('meal')} className={cn("p-2 rounded-xl", isModalOpen === 'meal' ? "bg-emerald-50 text-emerald-600" : "text-gray-400")}><Utensils className="w-5 h-5"/></button>
+                  <button onClick={() => setIsModalOpen('exercise')} className={cn("p-2 rounded-xl", isModalOpen === 'exercise' ? "bg-emerald-50 text-emerald-600" : "text-gray-400")}><Dumbbell className="w-5 h-5"/></button>
+                  <button onClick={() => setIsModalOpen('body')} className={cn("p-2 rounded-xl", isModalOpen === 'body' ? "bg-emerald-50 text-emerald-600" : "text-gray-400")}><Scale className="w-5 h-5"/></button>
+                  <button onClick={() => setIsModalOpen('recipe')} className={cn("p-2 rounded-xl", isModalOpen === 'recipe' ? "bg-emerald-50 text-emerald-600" : "text-gray-400")}><ChefHat className="w-5 h-5"/></button>
+                  <button onClick={() => setIsModalOpen('profile')} className={cn("p-2 rounded-xl", isModalOpen === 'profile' ? "bg-emerald-50 text-emerald-600" : "text-gray-400")}><User className="w-5 h-5"/></button>
+                </div>
+              </div>
 
-          {isModalOpen === 'profile' && (
-            <div className="space-y-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">이름</label>
-                <input 
-                  type="text" 
-                  className="w-full p-4 bg-gray-50 rounded-2xl border-none focus:ring-2 focus:ring-emerald-500"
-                  defaultValue={profile.name}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">키 (cm)</label>
-                  <input type="number" className="w-full p-4 bg-gray-50 rounded-2xl border-none" defaultValue={profile.height} />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">나이</label>
-                  <input type="number" className="w-full p-4 bg-gray-50 rounded-2xl border-none" defaultValue={profile.age} />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">현재 체중 (kg)</label>
-                  <input type="number" className="w-full p-4 bg-gray-50 rounded-2xl border-none" defaultValue={profile.weight} />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">목표 체중 (kg)</label>
-                  <input type="number" className="w-full p-4 bg-gray-50 rounded-2xl border-none" defaultValue={profile.targetWeight} />
-                </div>
-              </div>
-              <button 
-                onClick={() => setIsModalOpen(null)}
-                className="w-full py-4 bg-emerald-500 text-white rounded-2xl font-bold hover:bg-emerald-600 transition-colors"
-              >
-                설정 저장
-              </button>
-            </div>
-          )}
               {isModalOpen === 'meal' && (
                 <form onSubmit={(e) => {
                   e.preventDefault();
