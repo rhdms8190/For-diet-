@@ -718,29 +718,6 @@ export default function App() {
               </button>
             </section>
 
-            {/* BMI Progress Card */}
-            <section>
-              <h2 className="text-lg font-bold mb-4">나의 체성분 상태</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                  <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center mb-3">
-                    <Scale className="w-6 h-6 text-emerald-500" />
-                  </div>
-                  <p className="text-xs font-bold text-gray-400 uppercase mb-1">현재 BMI</p>
-                  <p className="text-2xl font-bold">{bmi.toFixed(1)}</p>
-                  <p className="text-xs font-medium text-emerald-600 mt-1">{bmiCategory}</p>
-                </div>
-                <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col items-center text-center">
-                  <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mb-3">
-                    <TrendingUp className="w-6 h-6 text-blue-500" />
-                  </div>
-                  <p className="text-xs font-bold text-gray-400 uppercase mb-1">목표까지</p>
-                  <p className="text-2xl font-bold">{Math.abs(profile.weight - profile.targetWeight).toFixed(1)}kg</p>
-                  <p className="text-xs font-medium text-blue-600 mt-1">{profile.weight > profile.targetWeight ? '감량 필요' : '증량 필요'}</p>
-                </div>
-              </div>
-            </section>
-
             {/* Daily Stats Summary */}
             <section>
               <h2 className="text-lg font-bold mb-4">오늘의 영양 상태</h2>
